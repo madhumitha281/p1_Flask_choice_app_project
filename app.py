@@ -11,7 +11,6 @@ PASSWORD = os.environ.get("PASSWORD")
 def send_email(choice):
     subject = "Choice Selected"
     body = f"Someone selected: {choice}"
-
     message = f"Subject: {subject}\n\n{body}"
 
     try:
@@ -23,7 +22,7 @@ def send_email(choice):
             print("Email sent")
 
     except Exception as e:
-        print("Email failed:", e)
+        print("Email error:", e)
 
 
 @app.route("/")
