@@ -14,12 +14,16 @@ def send_email(choice):
 
     message = f"Subject: {subject}\n\n{body}"
 
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login(EMAIL, PASSWORD)
-        server.sendmail(EMAIL, EMAIL, message)
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as server:
+            server.ehlo()
+            server.starttls()
+            server.login(EMAIL, PASSWORD)
+            server.sendmail(EMAIL, EMAIL, message)
+            print("Email sent")
+
+    except Exception as e:
+        print("Email failed:", e)
 
 
 @app.route("/")
