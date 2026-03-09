@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request
 import smtplib
+import os
 
 app = Flask(__name__)
 
-EMAIL = "vmnmitha@gmail.com"
-PASSWORD = "dehn zadj drbv thkn"
+EMAIL = os.environ.get("EMAIL")
+PASSWORD = os.environ.get("PASSWORD")
 
 
 def send_email(choice):
