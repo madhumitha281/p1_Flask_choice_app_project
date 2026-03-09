@@ -1,18 +1,120 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Choose</title>
+    <title>Make Your Choice!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            text-align: center;
+            padding-top: 80px;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 1px 1px 5px #000;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border-radius: 25px;
+            border: none;
+            margin-bottom: 20px;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .choice-button {
+            display: inline-block;
+            padding: 15px 40px;
+            margin: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .choice-a {
+            background-color: #ff6b6b;
+        }
+
+        .choice-a:hover {
+            background-color: #ff4757;
+            transform: scale(1.1);
+        }
+
+        .choice-b {
+            background-color: #1dd1a1;
+        }
+
+        .choice-b:hover {
+            background-color: #10ac84;
+            transform: scale(1.1);
+        }
+
+        button[type="submit"] {
+            padding: 12px 35px;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            background-color: #ffa502;
+            color: #fff;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #ff7f50;
+            transform: scale(1.05);
+        }
+
+        form {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+    </style>
 </head>
-<body style="text-align:center;margin-top:100px;">
+<body>
 
-<h2>Please choose one option</h2>
+    <h2>🎉 Make Your Choice! 🎉</h2>
 
-<form action="/choose" method="post">
-    <input type="text" name="username" placeholder="Enter your name" required><br><br>
-    <input type="radio" name="choice" value="A" required> Option A<br>
-    <input type="radio" name="choice" value="B"> Option B<br><br>
-    <button type="submit">Submit</button>
-</form>
+    <form action="/choose" method="post">
+        <input type="text" name="username" placeholder="Enter your name" required><br><br>
+
+        <label>
+            <input type="radio" name="choice" value="A" required hidden>
+            <span class="choice-button choice-a">Option A</span>
+        </label>
+
+        <label>
+            <input type="radio" name="choice" value="B" hidden>
+            <span class="choice-button choice-b">Option B</span>
+        </label>
+        <br><br>
+
+        <button type="submit">Submit Your Choice</button>
+    </form>
+
+    <script>
+        // Make clicking on the colorful span select the hidden radio
+        document.querySelectorAll('.choice-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.previousElementSibling.checked = true;
+            });
+        });
+    </script>
 
 </body>
 </html>
