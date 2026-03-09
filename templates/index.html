@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Choose</title>
+    <title>Choose</title>
 </head>
-
 <body style="text-align:center;margin-top:100px;">
 
 <h2>Please choose one option</h2>
 
 <form action="/choose" method="post">
-    <input type="text" name="username" placeholder="Enter your name" required>
-    <button name="choice" value="A">Choose A</button>
-    <button name="choice" value="B">Choose B</button>
+    <input type="text" name="username" placeholder="Enter your name" required><br><br>
+
+    <label>
+        <input type="radio" name="choice" value="A" required> Option A
+    </label><br>
+    <label>
+        <input type="radio" name="choice" value="B"> Option B
+    </label><br><br>
+
+    <button type="submit">Submit</button>
 </form>
 
 </body>
