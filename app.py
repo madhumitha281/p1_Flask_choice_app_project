@@ -12,10 +12,12 @@ def send_email(choice):
     subject = "Choice Selected"
     body = f"Someone selected: {choice}"
 
-    message = f"Subject:{subject}\n\n{body}"
+    message = f"Subject: {subject}\n\n{body}"
 
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.ehlo()
         server.starttls()
+        server.ehlo()
         server.login(EMAIL, PASSWORD)
         server.sendmail(EMAIL, EMAIL, message)
 
