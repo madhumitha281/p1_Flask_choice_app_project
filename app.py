@@ -51,32 +51,37 @@ def home():
 
 @app.route("/choose", methods=["POST"])
 def choose():
+    username = request.form.get("username")
     choice = request.form.get("choice")
-    if not choice:
-        return "No choice selected", 400
+
+    if not username or not choice:
+        return "Name or choice missing", 400
 
     try:
         with sqlite3.connect(DB_PATH) as conn:
             c = conn.cursor()
-            c.execute("INSERT INTO votes (choice) VALUES (?)", (choice,))
+            c.execute(
+                "INSERT INTO votes (username, choice) VALUES (?, ?)",
+                (username, choice)
+            )
             conn.commit()
     except Exception as e:
         return f"Database error: {e}", 500
 
-    # Send email notification (optional, remove if not needed)
-    send_email(choice)
-
-    return f"Thanks for choosing {choice} 😊"
+    # optional: send_email(choice)  # you can keep or remove
+    return f"Thanks {username}, you chose {choice} 😊"
 
 @app.route("/results")
 def results():
     try:
         with sqlite3.connect(DB_PATH) as conn:
             c = conn.cursor()
-            c.execute("SELECT choice, COUNT(*) FROM votes GROUP BY choice")
+            c.execute("SELECT username, choice FROM votes")
             data = c.fetchall()
-            results_dict = {choice: count for choice, count in data}
-            return jsonify(results_dict)
+
+        # return JSON with username → choice
+        results_dict = {username: choice for username, choice in data}
+        return jsonify(results_dict)
     except Exception as e:
         return f"Database error: {e}", 500
 
