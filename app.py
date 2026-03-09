@@ -1,15 +1,8 @@
 from flask import Flask, render_template, request, jsonify
-import smtplib
-import os
 import sqlite3
 
 app = Flask(__name__)
 
-# Load email credentials from environment
-EMAIL = os.environ.get("EMAIL")
-PASSWORD = os.environ.get("PASSWORD")
-if not EMAIL or not PASSWORD:
-    raise ValueError("EMAIL and PASSWORD environment variables must be set")
 
 DB_PATH = "votes.db"
 
@@ -27,22 +20,6 @@ def init_db():
         conn.commit()
 
 init_db()
-
-# ----------------- Email Function -----------------
-def send_email(choice):
-    subject = "Choice Selected"
-    body = f"Someone selected: {choice}"
-    message = f"Subject: {subject}\n\n{body}"
-
-    try:
-        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as server:
-            server.ehlo()
-            server.starttls()
-            server.login(EMAIL, PASSWORD)
-            server.sendmail(EMAIL, EMAIL, message)
-            print("Email sent successfully")
-    except Exception as e:
-        print("Failed to send email:", e)
 
 # ----------------- Routes -----------------
 @app.route("/")
