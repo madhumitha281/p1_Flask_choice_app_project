@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 import smtplib
 import os
+import sqlite3
+
 
 app = Flask(__name__)
 
@@ -24,6 +26,21 @@ def send_email(choice):
     except Exception as e:
         print("Email error:", e)
 
+def init_db():
+    conn = sqlite3.connect("votes.db")
+    c = conn.cursor()
+
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS votes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        choice TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+init_db()
 
 @app.route("/")
 def home():
@@ -34,9 +51,26 @@ def home():
 def choose():
     choice = request.form["choice"]
 
-    send_email(choice)
+    conn = sqlite3.connect("votes.db")
+    c = conn.cursor()
+
+    c.execute("INSERT INTO votes (choice) VALUES (?)", (choice,))
+    conn.commit()
+    conn.close()
 
     return f"Thanks for choosing {choice} 😊"
+
+@app.route("/results")
+def results():
+    conn = sqlite3.connect("votes.db")
+    c = conn.cursor()
+
+    c.execute("SELECT choice, COUNT(*) FROM votes GROUP BY choice")
+    data = c.fetchall()
+
+    conn.close()
+
+    return str(data)
 
 
 if __name__ == "__main__":
