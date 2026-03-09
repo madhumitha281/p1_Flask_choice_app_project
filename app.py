@@ -20,6 +20,7 @@ def init_db():
         c.execute("""
             CREATE TABLE IF NOT EXISTS votes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL,
                 choice TEXT NOT NULL
             )
         """)
